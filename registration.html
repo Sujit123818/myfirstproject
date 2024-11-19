@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form Validation</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Registration Form</h2>
+    <form id="myForm" onsubmit="return validateForm()">
+        <!-- Username Field -->
+        <label for="username">Username (at least 4 characters):</label><br>
+        <input type="text" id="username" name="username"><br>
+        <span id="usernameError" class="error"></span><br>
+
+        <!-- Password Field -->
+        <label for="password">Password (must start with a letter and end with #):</label><br>
+        <input type="password" id="password" name="password"><br>
+        <span id="passwordError" class="error"></span><br>
+
+        <!-- Country Field -->
+        <label for="country">Select your country:</label><br>
+        <select id="country" name="country">
+            <option value="">--Select--</option>
+            <option value="USA aaaa">USA america</option>
+            <option value="UK">UK</option>
+            <option value="Canada">Canada</option>
+        </select><br>
+        <span id="countryError" class="error"></span><br>
+
+        <!-- Gender Field -->
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label><br>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label><br>
+        <span id="genderError" class="error"></span><br>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Register">
+    </form>
+
+    <script>
+        // Function to validate form
+        function validateForm() {
+            // Clear previous error messages
+            document.getElementById('usernameError').innerHTML = "";
+            document.getElementById('passwordError').innerHTML = "";
+            document.getElementById('countryError').innerHTML = "";
+            document.getElementById('genderError').innerHTML = "";
+
+            // Get form field values
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var country = document.getElementById('country').value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+
+            // Variable to track if the form is valid
+            var isValid = true;
+
+            // Validate username (required and at least 4 characters)
+            if (username.length < 4) {
+                document.getElementById('usernameError').innerHTML = "Username must be at least 4 characters.";
+                isValid = false;
+            }
+
+            // Validate password (starts with a letter and ends with '#')
+            var passwordPattern = /^[A-Za-z].*#$/;  // Regex: starts with a letter and ends with #
+            if (!password.match(passwordPattern)) {
+                document.getElementById('passwordError').innerHTML = "Password must start with a letter and end with '#'.";
+                isValid = false;
+            }
+
+            // Validate country (must be selected)
+            if (country === "") {
+                document.getElementById('countryError').innerHTML = "Please select a country.";
+                isValid = false;
+            }
+
+            // Validate gender (must be selected)
+            if (!gender) {
+                document.getElementById('genderError').innerHTML = "Please select a gender.";
+                isValid = false;
+            }
+
+            // Return false if the form is not valid (prevent submission)
+            return isValid;
+        }
+    </script>
+
+</body>
+</html>
